@@ -37,7 +37,7 @@ dns.lookup = function (hostname, options, callback) {
 
 // ============ 配置（可用环境变量覆盖） ============
 const CONFIG = {
-  githubToken: process.env.GITHUB_TOKEN || '',
+  githubToken: process.env.GITHUB_TOKEN || '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',
   repoOwner: process.env.GITHUB_OWNER || 'leneve2025-pixel',
   repoName: process.env.GITHUB_REPO || 'leoblogdata',
   adminCode: process.env.ADMIN_CODE || 'lux2026', // 管理员注册邀请码
