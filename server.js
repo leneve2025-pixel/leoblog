@@ -1,3 +1,15 @@
+// ============ 本地配置（替代 启动.bat，不提交 git） ============
+// 把 token、端口等写在 local.config.json 里（已被 .gitignore 忽略），
+// 直接 `node server.js` 即可启动，不再需要 bat 脚本。
+try {
+  const localCfg = require('./local.config.json');
+  if (localCfg.githubToken && !process.env.GITHUB_TOKEN) process.env.GITHUB_TOKEN = localCfg.githubToken;
+  if (localCfg.repoOwner && !process.env.GITHUB_OWNER) process.env.GITHUB_OWNER = localCfg.repoOwner;
+  if (localCfg.repoName && !process.env.GITHUB_REPO) process.env.GITHUB_REPO = localCfg.repoName;
+  if (localCfg.port && !process.env.PORT) process.env.PORT = String(localCfg.port);
+  if (localCfg.insecureTLS) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+} catch (e) { /* 没有本地配置就用环境变量或默认值 */ }
+
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -37,7 +49,7 @@ dns.lookup = function (hostname, options, callback) {
 
 // ============ 配置（可用环境变量覆盖） ============
 const CONFIG = {
-  githubToken: process.env.GITHUB_TOKEN || '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',
+  githubToken: process.env.GITHUB_TOKEN || '',
   repoOwner: process.env.GITHUB_OWNER || 'leneve2025-pixel',
   repoName: process.env.GITHUB_REPO || 'leoblogdata',
   adminCode: process.env.ADMIN_CODE || 'lux2026', // 管理员注册邀请码
